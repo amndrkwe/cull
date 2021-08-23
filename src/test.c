@@ -3,7 +3,7 @@
 
 int main()
 {
-    str* string = str_create("hello");
+    str_t* string = str_create("hello");
     
     str_destroy(string);
 }

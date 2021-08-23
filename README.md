@@ -17,12 +17,12 @@ Reserved types or functions are prefixed with the an underscore.
 It defines a new string wrapper called str and a bunch of really useful functions for string manipulation. Be them completely new functions or just reimplementations of the functions already in the C standard.
 
 **macros**:
-- ```CULL_STRTYPE```: defines how the new string type will be named, if no value is defined it defaults to ```str```.
-- ```CULL_STRLISTTYPE```: defines how the new string list type will be named, if no value is defined it defaults to ```strlist```.
+- ```CULL_STRTYPE```: defines how the new string type will be named, if no value is defined it defaults to ```str_t```.
+- ```CULL_STRLISTTYPE```: defines how the new string list type will be named, if no value is defined it defaults to ```strlist_t```.
 
 **types** (following default names):
-- ```typedef struct str```: string, wrapper around a char*.
-- ```typedef struct strlist```: list of strings, wrapper around str**.
+- ```typedef struct str_t```: string, wrapper around a char*.
+- ```typedef struct strlist_t```: list of strings, wrapper around str**.
 
 **functions** (following default names):
 - ```str* str_create(char* source)```: create string from c-style source string.

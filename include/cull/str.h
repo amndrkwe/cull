@@ -7,48 +7,49 @@
 #include <ctype.h> // toupper / tolower
 #include <stdarg.h> // va_lists etc
 #include <stdio.h> // sprintf etc
+#include <signal.h> // for raise
 
 #ifndef CULL_FUNC
     #define CULL_FUNC inline static
 #endif
 
 #ifndef CULL_STRTYPE
-    #define CULL_STRTYPE str
+    #define CULL_STRTYPE str_t
 #endif
 
 #ifndef CULL_STRLISTTYPE
-    #define CULL_STRLISTTYPE strlist
+    #define CULL_STRLISTTYPE strlist_t
 #endif
 
 #ifndef CULL_MAX
     #define CULL_MAX(n, m) (n < m) ? n : m
 #endif
 
-#define _CULL_UNIMPLEMENTED { return; }
+#define CULL_UNIMPLEMENTED printf("%s is not implemented yet!\n", __func__); raise(SIGILL)
 
 // string, wrapper around a char*
 typedef struct 
 {
     char* data; // actual string
     size_t len; // length in characters
-} _cullstr;
+} cull_str;
 
-// list of strings, wrapper around _cullstr**
+// list of strings, wrapper around cull_str**
 typedef struct
 {
-    _cullstr** data; // actual strings
+    cull_str** data; // actual strings
     size_t count; // string count
-} _cullstrlist;
+} cull_strlist;
 
 // create string from c-style source string
 CULL_FUNC
-_cullstr* str_create(char* source)
+cull_str* str_create(char* source)
 {
     if (source == NULL) return NULL;
 
     size_t srclen = strlen(source);
 
-    _cullstr* string = calloc(1, sizeof(_cullstr));
+    cull_str* string = calloc(1, sizeof(cull_str));
     char* data = calloc(srclen + 1, sizeof(char));
 
     if (string == NULL)
@@ -72,7 +73,7 @@ _cullstr* str_create(char* source)
 
 // free string
 CULL_FUNC
-void str_destroy(_cullstr* string)
+void str_destroy(cull_str* string)
 {
     if (string == NULL) return;
     if (string->data == NULL) return;
@@ -83,12 +84,12 @@ void str_destroy(_cullstr* string)
 }
 // create strlist of given size
 CULL_FUNC
-_cullstrlist* strlist_create(size_t count)
+cull_strlist* strlist_create(size_t count)
 {
     if (count <= 0) goto error;
     
-    _cullstrlist* list = calloc(count, sizeof(_cullstrlist));
-    list->data = calloc(count, sizeof(_cullstr));
+    cull_strlist* list = calloc(count, sizeof(cull_strlist));
+    list->data = calloc(count, sizeof(cull_str));
 
     if (list == NULL) goto error;
 
@@ -116,7 +117,7 @@ error:
 }
 
 // free strlist
-void strlist_destroy(_cullstrlist* list)
+void strlist_destroy(cull_strlist* list)
 {
     if (list == NULL) return;
 
@@ -131,17 +132,17 @@ void strlist_destroy(_cullstrlist* list)
 
 // create a new_string based on another.
 CULL_FUNC
-_cullstr* str_copy(const _cullstr* string)
+cull_str* str_copy(const cull_str* string)
 {
     if (string == NULL) return NULL;
 
-    _cullstr* new_str = str_create(string->data);
+    cull_str* new_str = str_create(string->data);
     return new_str;
 }
 
 // compare two strings, case sensitive
 CULL_FUNC
-bool str_compare(const _cullstr* s1, const _cullstr* s2)
+bool str_compare(const cull_str* s1, const cull_str* s2)
 {
     if (s1 == NULL || s2 == NULL) return false;    
 
@@ -152,9 +153,9 @@ bool str_compare(const _cullstr* s1, const _cullstr* s2)
 
 // resize string
 CULL_FUNC
-void str_resize(_cullstr* string, size_t size)
+void str_resize(cull_str* string, size_t size)
 {
-    _cullstr* new_string = NULL;
+    cull_str* new_string = NULL;
     new_string->data = calloc(size, sizeof(char));
     strncpy(new_string->data, string->data, string->len);
 
@@ -166,7 +167,7 @@ void str_resize(_cullstr* string, size_t size)
 
 // fill string with spaces
 CULL_FUNC
-void str_clear(_cullstr* string)
+void str_clear(cull_str* string)
 {
     if (string == NULL) return;
 
@@ -178,21 +179,21 @@ void str_clear(_cullstr* string)
 
 // check if string is empty
 CULL_FUNC
-bool str_is_empty(_cullstr* string)
+bool str_is_empty(cull_str* string)
 {
     return (string->len <= 1);
 }
 
 // concatenate two strings into a new one
 CULL_FUNC
-_cullstr* str_concat(_cullstr* s1, _cullstr* s2)
+cull_str* str_concat(cull_str* s1, cull_str* s2)
 {
     if (s1 == NULL || s2 == NULL)
     {
         return NULL;
     }
     
-    _cullstr* buffer;
+    cull_str* buffer;
 
     buffer = str_copy(s1);
     buffer->len += s2->len;
@@ -204,7 +205,7 @@ _cullstr* str_concat(_cullstr* s1, _cullstr* s2)
 
 // truncate string to new length
 CULL_FUNC
-void str_trunc(_cullstr* string, uint32_t len)
+void str_trunc(cull_str* string, uint32_t len)
 {
     if (string == NULL) return;
 
@@ -216,7 +217,7 @@ void str_trunc(_cullstr* string, uint32_t len)
 
 // set string to uppercase
 CULL_FUNC
-void str_upper(_cullstr* string)
+void str_upper(cull_str* string)
 {
     if (string == NULL) return;
     
@@ -229,7 +230,7 @@ void str_upper(_cullstr* string)
 
 // set string to lowercase
 CULL_FUNC
-void str_lower(_cullstr* string)
+void str_lower(cull_str* string)
 {
     if (string == NULL) return;
     
@@ -242,7 +243,7 @@ void str_lower(_cullstr* string)
 
 // searches the string for a substring and returns a pointer to the string at the location specified, returns -1 if it fails
 CULL_FUNC
-char* str_find(const _cullstr* string, const _cullstr* substring)
+char* str_find(const cull_str* string, const cull_str* substring)
 {
     if (string == NULL || substring == NULL) return NULL;
 
@@ -252,39 +253,39 @@ char* str_find(const _cullstr* string, const _cullstr* substring)
 
 // get int from string
 CULL_FUNC
-int str_int(const _cullstr* string)
+int str_int(const cull_str* string)
 {
     return (int)(strtol(string->data, NULL, 0));
 }
 
 // get unsigned int from string
 CULL_FUNC
-uint32_t str_uint(const _cullstr* string)
+uint32_t str_uint(const cull_str* string)
 {
     return (uint32_t)(strtoul(string->data, NULL, 0));
 }
 
 // get float from string
 CULL_FUNC
-float str_float(const _cullstr* string)
+float str_float(const cull_str* string)
 {
     return (strtof(string->data, NULL));
 }
 
 // get double from string
 CULL_FUNC
-double str_double(const _cullstr* string)
+double str_double(const cull_str* string)
 {
     return (strtod(string->data, NULL));
 }
 
-// tokenize string and return _cullstrlist containing it
+// tokenize string and return cull_strlist containing it
 CULL_FUNC
-_cullstrlist* str_tokenize(const _cullstr* string, char* delims)
+cull_strlist* str_tokenize(const cull_str* string, char* delims)
 {
     if (string == NULL) return NULL;
 
-    _cullstrlist* list = strlist_create(string->len);
+    cull_strlist* list = strlist_create(string->len);
     if (list == NULL) goto error;
 
     unsigned int i = 0;
@@ -309,7 +310,10 @@ error:
 
 // strip string of trailing whitespace
 CULL_FUNC
-void str_strip(_cullstr* string) _CULL_UNIMPLEMENTED
+void str_strip(cull_str* string)
+{
+    CULL_UNIMPLEMENTED;
+} 
 
-typedef _cullstr CULL_STRTYPE;
-typedef _cullstrlist CULL_STRLISTTYPE;
+typedef cull_str CULL_STRTYPE;
+typedef cull_strlist CULL_STRLISTTYPE;

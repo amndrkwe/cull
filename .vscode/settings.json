@@ -1,5 +1,11 @@
 {
     "files.associations": {
-        "str.h": "c"
+        "*.h": "c",
+        "str.h": "c",
+        "cstdint": "cpp",
+        "string": "c",
+        "array": "c",
+        "string_view": "c",
+        "ranges": "c"
     }
 }

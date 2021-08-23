@@ -1,4 +1,4 @@
-NAME=fantasy_computer
+NAME=cull
 
 CC=gcc
 FLAGS=-Wall -Wextra -Wno-unused 

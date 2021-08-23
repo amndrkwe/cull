@@ -1,0 +1,19 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "C:\\ProgramData\\chocolatey\\lib\\mingw\\tools\\install\\mingw64\\include"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "compilerPath": "C:/ProgramData/chocolatey/bin/gcc.exe",
+            "cStandard": "c11"
+        }
+    ],
+    "version": 4
+}

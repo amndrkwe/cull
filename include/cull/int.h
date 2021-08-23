@@ -7,7 +7,6 @@ typedef uint32_t u32;
 typedef uint64_t u64;
 
 typedef uint32_t uint;
-typedef uint32_t bytesize;
 
 typedef int8_t i8;
 typedef int16_t i16;

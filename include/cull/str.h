@@ -23,13 +23,23 @@
     #define CULL_MAX(n, m) (n < m) ? n : m
 #endif
 
+#define CULL_UNIMPLEMENTED { return; }
+
 #define CULL_DEBUG_STRING(str) printf("'%s' len: %llu\n", str->data, str->len)
 
+// string, wrapper around a char*
 typedef struct 
 {
     size_t len; // length in characters
     char* data; // actual string
 } str;
+
+// list of strings, wrapper around str**
+typedef struct
+{
+    size_t count; // string count
+    str** data; // actual strings
+} strlist;
 
 // create string from c-style source string
 CULL_FUNC
@@ -40,9 +50,20 @@ str* str_create(char* source)
     size_t srclen = strlen(source);
 
     str* string = calloc(1, sizeof(str));
-    char* data = calloc(srclen, sizeof(char));
+    char* data = calloc(srclen + 1, sizeof(char));
 
-    data = strncpy(data, source, srclen);
+    if (string == NULL)
+    {
+        return NULL;
+    }
+
+    if (data == NULL)
+    {
+        free(string);
+        return NULL;
+    }
+
+    data = strcpy(data, source);
 
     string->data = data;
     string->len = srclen;
@@ -55,9 +76,58 @@ CULL_FUNC
 void str_destroy(str* string)
 {
     if (string == NULL) return;
+    if (string->data == NULL) return;
+    if (string->len == 0) return;
 
     free(string->data);
     free(string);
+}
+// create strlist
+CULL_FUNC
+strlist* strlist_create(size_t count)
+{
+    if (count <= 0) goto error;
+    
+    strlist* list = calloc(count, sizeof(strlist));
+    list->data = calloc(count, sizeof(str));
+
+    if (list == NULL) goto error;
+
+    list->count = count;
+
+    // initialize list
+    for (size_t i = 0; i < count; i++)
+    {
+        list->data[i] = str_create(" ");
+    }
+
+    return list;
+
+error:
+    for (size_t i = 0; i < list->count; i++)
+    {
+        if (list->data[i] == NULL) continue;
+        str_destroy(list->data[i]);
+
+    }
+    if (list != NULL) free(list);
+
+    return NULL;
+
+}
+
+// free strlist
+void strlist_destroy(strlist* list)
+{
+    if (list == NULL) return;
+
+    for (size_t i = 0; i < list->count; i++)
+    {
+        if (list->data[i] == NULL) continue;
+        str_destroy(list->data[i]);
+    }
+
+    free(list);
 }
 
 // copy string
@@ -90,9 +160,7 @@ void str_resize(str* string, size_t size)
 
     new_string->len = size - 1;
 
-    CULL_DEBUG_STRING(new_string);
-
-    free(string);
+    str_destroy(string);
     string = new_string;
 }
 
@@ -208,21 +276,38 @@ float str_float(const str* string)
 CULL_FUNC
 double str_double(const str* string)
 {
-    return strtod(string->data, NULL);
+    return (strtod(string->data, NULL));
 }
 
-// tokenize string and store to buffer
+// tokenize string and return strlist containing it
 CULL_FUNC
-bool str_tokenize(const str* string, str** buffer, size_t buffer_size);
+strlist* str_tokenize(const str* string, char* delims)
+{
+    if (string == NULL) return NULL;
 
-// splits string following delimeter and store to buffer
-CULL_FUNC
-bool str_split(const str* string, const char delim, str** buffer, str** buffer_size);
+    strlist* list = strlist_create(string->len);
+    if (list == NULL) goto error;
 
-// strip string of leftmost whitespace
-CULL_FUNC
-void str_lstrip(str* string);
+    unsigned int i = 0;
+    char* s = strtok (string->data, delims);
+    while(s != NULL)
+    {
+        list->data[i++] = str_create(s);
+        s = strtok(NULL, delims);
+    }
 
-// strip string of leftmost whitespace
+    list->count = i;
+
+    return (list);
+
+error:
+    printf("ERROR\n");
+    if (list != NULL) strlist_destroy(list);
+
+    return NULL;
+
+}
+
+// strip string of trailing whitespace
 CULL_FUNC
-void str_lstrip(str* string);
+void str_strip(str* string) CULL_UNIMPLEMENTED

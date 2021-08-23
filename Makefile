@@ -2,7 +2,7 @@ NAME=cull
 
 CC=gcc
 FLAGS=-Wall -Wextra -Wno-unused 
-DEBUG_FLAGS=-g -fsanitize=address
+DEBUG_FLAGS=-g
 SRC=$(wildcard src/*.c) $(wildcard src/*/*.c)
 LIB=
 INC=-I./include -I./src
@@ -16,5 +16,5 @@ $(NAME): $(SRC)
 run:
 	./$(BIN)$(NAME)
 
-debug: fclean
+debug:
 	$(CC) $(FLAGS) $(DEBUG_FLAGS) $(LIB) $(SRC) $(INC) -o $(BIN)$(NAME)

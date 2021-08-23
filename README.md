@@ -7,11 +7,6 @@
 // Losers
 ```
 
-## Remember:
-
-All usable functions and types are prefixed with the filename associated.
-Reserved types or functions are prefixed with the an underscore.
-
 ## ```str.h```:
 
 It defines a new string wrapper called str and a bunch of really useful functions for string manipulation. Be them completely new functions or just reimplementations of the functions already in the C standard.

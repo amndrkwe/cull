@@ -12,28 +12,40 @@
 All usable functions and types are prefixed with the filename associated.
 Reserved types or functions are prefixed with the an underscore.
 
-## ```cstr.h```:
+## ```str.h```:
 
-It defines a bunch of really useful functions for c-style string manipulation. Be them completely new functions or just reimplementations of the functions already in the C standard.
+It defines a new string wrapper called str and a bunch of really useful functions for string manipulation. Be them completely new functions or just reimplementations of the functions already in the C standard.
 
-Here's a list of them:
+**macros**:
+- ```CULL_STRTYPE```: defines how the new string type will be named, if no value is defined it defaults to ```str```.
+- ```CULL_STRLISTTYPE```: defines how the new string list type will be named, if no value is defined it defaults to ```strlist```.
 
-**functions**:
+**types** (following default names):
+- ```typedef struct str```: string, wrapper around a char*.
+- ```typedef struct strlist```: list of strings, wrapper around str**.
 
-- ```int cstr_compare(const char* str1, const char* str2)```: takes two strings and compares them, case sensitive, returns ```1``` if they are equal.
-- ```const char* cstr_clone(const char* str)```: copy contents of a given string to a buffer and return a pointer to it, returns ```NULL``` if it fails.
-- ```const char* cstr_lstrip(const char* str)```: strip leftmost whitespace of the given string and return a pointer to it, returns ```NULL``` if it fails.
-- ```const char* cstr_rstrip(const char* str)```: strip rightmost whitespace of the given string and return a pointer to it, returns ```NULL``` if it fails.
-- ```const char* cstr_strip(const char* str)```: strip leftmost and rightmost whitespace of the given string and return a pointer to a newly allocated string, returns ```NULL``` if it fails.
-- ```const char* cstr_upper(const char* str)```: convert string to uppercase and return a pointer to the buffer containing the new string.
-- ```const char* cstr_lower(const char* str)```: convert a string to lowercase and store it into a new buffer, returns a pointer to the buffer, returns ```NULL``` if it fails.
-- ```const char* cstr_concat(const char* str1, const char* str2)```: concatenates the two given strings into a buffer and returns a pointer to it, returns ```NULL``` if it fails.
-- ```const char* cstr_truncate(const char* str, const uint delim)```: truncate the contents of the given string following the delimeter and returns a pointer to it, returns ```NULL``` if it fails.
-- ```const char** cstr_tokenize(const char* str, uint buff_size)```: tokenize string, store the resulting strings into a buffer and return a pointer to it, returns ```NULL``` if it fails.
-- ```int cstr_find(const char* str, const char* substr)```: find given substring inside the given string, returns the character where the substring starts, returns -1 if it fails.
-- ```const char* cstr_substr(const char* str, uint start, uint end)```: get substring from given string and returns a buffer with that substring stored, returns ```NULL``` if it fails.
-- ```const char* cstr_format(const char* str, ...)```: formats string as if it was printf statement, stores it into a buffer and returns it, returns ```NULL``` if it fails.
-- ```const char* cstr_fry(const char* string str)```: stir fries string.
+**functions** (following default names):
+- ```str* str_create(char* source)```: create string from c-style source string.
+- ```void str_destroy(str* string)```: free string.
+
+- ```strlist* strlist_create(size_t count)```: create strlist of given size.
+- ```void strlist_destroy(strlist* list)```: free strlist.
+
+- ```str* str_copy(const str* string)```: create a new_string based on another.
+- ```bool str_compare(const str* s1, const str* s2)```: compare two strings, case sensitive.
+- ```void str_resize(str* string, size_t size)```: resize string.
+- ```void str_clear(str* string)```: fill string with spaces.
+- ```bool str_is_empty(str* string)```: check if string is empty.
+- ```str* str_concat(str* s1, str* s2)```: concatenate two strings into a new one.
+- ```void str_trunc(str* string, uint32_t len)```: truncate given string to new length.
+- ```void str_upper(str* string)```: set string to uppercase.
+- ```void str_lower(str* string)```: set string to lowercase.
+- ```char* str_find(const str* string, const str* substring)```: searches the string for a substring and returns a pointer to the character where it was found, returns -1 if it fails.
+- ```int str_int(const str* string)```: get int from string, wrapper for ```strtol```.
+- ```uint32_t str_uint(const str* string)```: get unsigned int from string.
+- ```float str_float(const str* string)```: get float from string.
+- ```double str_double(const str* string)```: get double from string
+- ```strlist* str_tokenize(const str* string, char* delims)```: tokenize string and return strlist containing it.
 
 ## ```os.h```:
 

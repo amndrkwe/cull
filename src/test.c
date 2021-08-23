@@ -3,11 +3,11 @@
 
 int main()
 {
-    str* string = str_create("hello");
+    str* string = str_create("0x10");
 
-    str string2 = tostr("hello");
+    printf("%u\n", str_uint(string));
 
-    printf("%s", string->data);
+    CULL_DEBUG_STRING(string);
 
     str_destroy(string);
 }

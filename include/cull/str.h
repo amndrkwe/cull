@@ -52,15 +52,9 @@ cull_str* str_create(char* source)
     cull_str* string = calloc(1, sizeof(cull_str));
     char* data = calloc(srclen + 1, sizeof(char));
 
-    if (string == NULL)
+    if (string == NULL || data == NULL)
     {
-        return NULL;
-    }
-
-    if (data == NULL)
-    {
-        free(string);
-        return NULL;
+        goto error;
     }
 
     data = strcpy(data, source);
@@ -69,6 +63,12 @@ cull_str* str_create(char* source)
     string->len = srclen;
 
     return (string);
+
+error:
+    free(string);
+    free(data);
+
+    return NULL;
 }
 
 // free string
@@ -110,7 +110,8 @@ error:
         str_destroy(list->data[i]);
 
     }
-    if (list != NULL) free(list);
+
+    free(list);
 
     return NULL;
 
@@ -123,7 +124,6 @@ void strlist_destroy(cull_strlist* list)
 
     for (size_t i = 0; i < list->count; i++)
     {
-        if (list->data[i] == NULL) continue;
         str_destroy(list->data[i]);
     }
 
@@ -151,18 +151,27 @@ bool str_compare(const cull_str* s1, const cull_str* s2)
     return (result == 0);
 }
 
+size_t str_getsize(cull_str* string)
+{
+    
+}
+
 // resize string
 CULL_FUNC
-void str_resize(cull_str* string, size_t size)
+bool str_resize(cull_str* string, size_t size)
 {
     cull_str* new_string = NULL;
     new_string->data = calloc(size, sizeof(char));
-    strncpy(new_string->data, string->data, string->len);
 
+    if (new_string == NULL) return false;
+
+    strncpy(new_string->data, string->data, string->len);
     new_string->len = size - 1;
 
     str_destroy(string);
     string = new_string;
+
+    return true;
 }
 
 // fill string with spaces
@@ -193,9 +202,14 @@ cull_str* str_concat(cull_str* s1, cull_str* s2)
         return NULL;
     }
     
-    cull_str* buffer;
+    cull_str* buffer = str_copy(s1);
 
-    buffer = str_copy(s1);
+    if (buffer == NULL) 
+    {
+        str_destroy(buffer);
+        return NULL;
+    }
+
     buffer->len += s2->len;
 
     strcat(buffer->data, s2->data);
@@ -289,10 +303,14 @@ cull_strlist* str_tokenize(const cull_str* string, char* delims)
     if (list == NULL) goto error;
 
     unsigned int i = 0;
+    cull_str* new_string ;
     char* s = strtok (string->data, delims);
     while(s != NULL)
     {
-        list->data[i++] = str_create(s);
+        new_string = str_create(s);
+        if (new_string == NULL) goto error;
+
+        list->data[i++] = new_string;
         s = strtok(NULL, delims);
     }
 
@@ -302,7 +320,7 @@ cull_strlist* str_tokenize(const cull_str* string, char* delims)
 
 error:
     printf("ERROR\n");
-    if (list != NULL) strlist_destroy(list);
+    strlist_destroy(list);
 
     return NULL;
 
@@ -316,4 +334,4 @@ void str_strip(cull_str* string)
 } 
 
 typedef cull_str CULL_STRTYPE;
-typedef cull_strlist CULL_STRLISTTYPE;
+typedef cull_strlist CULL_STRLISTTYPE;  

@@ -1,9 +1,8 @@
-#include "cull/str.h"
+#include "cull/os.h"
 #include <stdio.h>
 
 int main()
 {
-    str_t* string = str_create("hello");
-    
-    str_destroy(string);
+    os_random_seed(os_cycles());
+    printf("%llu", os_cycles());
 }

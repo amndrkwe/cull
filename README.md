@@ -6,6 +6,9 @@
 // Lazy
 // Losers
 ```
+
+Compatible with C99-C17
+
 ## ```str.h```:
 
 It defines a new string wrapper called str and a bunch of really useful functions for string manipulation. Be them completely new functions or just reimplementations of the functions already in the C standard.

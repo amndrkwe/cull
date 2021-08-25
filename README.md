@@ -6,38 +6,37 @@
 // Lazy
 // Losers
 ```
-
 ## ```str.h```:
 
 It defines a new string wrapper called str and a bunch of really useful functions for string manipulation. Be them completely new functions or just reimplementations of the functions already in the C standard.
 
 **macros**:
-- ```CULL_STRTYPE```: defines how the new string type will be named, if no value is defined it defaults to ```str```.
-- ```CULL_STRLISTTYPE```: defines how the new string list type will be named, if no value is defined it defaults to ```strlist```.
+- ```CULL_STRTYPE```: defines how the new string type will be named, if no value is defined it defaults to ```str_t```.
+- ```CULL_STRLISTTYPE```: defines how the new string list type will be named, if no value is defined it defaults to ```strlist_t```.
 
 **types** (following default names):
-- ```typedef struct str```: string, wrapper around a char*.
-- ```typedef struct strlist```: list of strings, wrapper around str**.
+- ```typedef struct str_t```: string, wrapper around a char*.
+- ```typedef struct strlist_t```: list of strings, wrapper around str_t**.
 
 **functions** (following default names):
-- ```str* str_create(char* source)```: create string from c-style source string.
-- ```void str_destroy(str* string)```: free string.
+- ```str_t* str_create(char* source)```: create string from c-style source string.
+- ```void str_destroy(str_t* string)```: free string.
 
-- ```strlist* strlist_create(size_t count)```: create strlist of given size.
-- ```void strlist_destroy(strlist* list)```: free strlist.
+- ```strlist_t* strlist_create(size_t count)```: create strlist of given size.
+- ```void strlist_destroy(strlist_t* list)```: free strlist.
 
-- ```str* str_copy(const str* string)```: create a new_string based on another.
-- ```bool str_compare(const str* s1, const str* s2)```: compare two strings, case sensitive.
-- ```void str_resize(str* string, size_t size)```: resize string.
-- ```void str_clear(str* string)```: fill string with spaces.
-- ```bool str_is_empty(str* string)```: check if string is empty.
-- ```str* str_concat(str* s1, str* s2)```: concatenate two strings into a new one.
-- ```void str_trunc(str* string, uint32_t len)```: truncate given string to new length.
-- ```void str_upper(str* string)```: set string to uppercase.
-- ```void str_lower(str* string)```: set string to lowercase.
-- ```char* str_find(const str* string, const str* substring)```: searches the string for a substring and returns a pointer to the character where it was found, returns -1 if it fails.
-- ```int str_int(const str* string)```: get int from string, wrapper for ```strtol```.
-- ```uint32_t str_uint(const str* string)```: get unsigned int from string.
-- ```float str_float(const str* string)```: get float from string.
-- ```double str_double(const str* string)```: get double from string
-- ```strlist* str_tokenize(const str* string, char* delims)```: tokenize string and return strlist containing it.
+- ```str_t* str_copy(const str_t* string)```: create a new_string based on another.
+- ```bool str_compare(const str_t* s1, const str_t* s2)```: compare two strings, case sensitive.
+- ```void str_resize(str_t* string, size_t size)```: resize string.
+- ```void str_clear(str_t* string)```: fill string with spaces.
+- ```bool str_is_empty(str_t* string)```: check if string is empty.
+- ```str_t* str_concat(str_t* s1, str_t* s2)```: concatenate two strings into a new one.
+- ```void str_trunc(str_t* string, uint32_t len)```: truncate given string to new length.
+- ```void str_upper(str_t* string)```: set string to uppercase.
+- ```void str_lower(str_t* string)```: set string to lowercase.
+- ```char* str_find(const str_t* string, const str_t* substring)```: searches the string for a substring and returns a pointer to the character where it was found, returns -1 if it fails.
+- ```int str_int(const str_t* string)```: get int from string, wrapper for ```strtol```.
+- ```uint32_t str_uint(const str_t* string)```: get unsigned int from string.
+- ```float str_float(const str_t* string)```: get float from string.
+- ```double str_double(const str_t* string)```: get double from string
+- ```strlist_t* str_tokenize(const str_t* string, char* delims)```: tokenize string following delims and return strlist containing the tokens.

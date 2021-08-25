@@ -19,7 +19,15 @@
 enum err_codes
 {
     CULL_INVALID_PATH,
+    CULL_INVALID_READ,
+};
 
+enum read_modes
+{
+    WRITE, 
+    READ, 
+    WRITE_READ, 
+    APPEND
 };
 
 typedef struct 

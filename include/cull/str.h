@@ -9,9 +9,6 @@
 #include <stdio.h> // sprintf etc
 #include <signal.h> // for raise
 
-#ifndef CULL_FUNC
-    #define CULL_FUNC inline static
-#endif
 
 #ifndef CULL_STRTYPE
     #define CULL_STRTYPE str_t
@@ -21,6 +18,14 @@
     #define CULL_STRLISTTYPE strlist_t
 #endif
 
+// Internal functions:
+
+// internal! do not use
+#ifndef CULL_FUNC
+    #define CULL_FUNC inline static
+#endif
+
+// internal! do not use
 #ifndef CULL_MAX
     #define CULL_MAX(n, m) (n < m) ? n : m
 #endif
@@ -334,4 +339,6 @@ void str_strip(cull_str* string)
 } 
 
 typedef cull_str CULL_STRTYPE;
-typedef cull_strlist CULL_STRLISTTYPE;  
+typedef cull_strlist CULL_STRLISTTYPE;
+
+#undef CULL_MAX

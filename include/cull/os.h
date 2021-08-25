@@ -3,8 +3,6 @@
 #include <stdlib.h>
 #include <stdint.h>
 
-
-
 #ifndef CULL_FUNC
     #define CULL_FUNC inline static
 #endif

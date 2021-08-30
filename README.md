@@ -69,20 +69,6 @@ Header essential for making os-independent command line applications. Great for 
 
 Alternative typedef format, this mostly replaces the declarations in ```stdint.h```:
 
-**macros**:
-
-- ```#define U8_SIZE 1```: u8 size in bytes
-- ```#define U16_SIZE 2```: u16 size in bytes
-- ```#define U32_SIZE 4```: u32 size in bytes
-- ```#define U64_SIZE 8```: u64 size in bytes
-
-- ```#define UINT_SIZE 4```: u8 size in bytes
-
-- ```#define I8_SIZE 1```: i8 size in bytes
-- ```#define I16_SIZE 2```: i16 size in bytes
-- ```#define I32_SIZE 4```: i32 size in bytes
-- ```#define I64_SIZE 8```: i64 size in bytes
-
 **types**
 
 - ```typedef u8``` same as uint8_t

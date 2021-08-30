@@ -7,5 +7,10 @@
         "array": "c",
         "string_view": "c",
         "ranges": "c"
-    }
+    },
+    "cSpell.language": "en",
+    "cSpell.enableFiletypes": [
+        "!gitignore"
+    ],
+    "cSpell.enabled": false
 }

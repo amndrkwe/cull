@@ -7,16 +7,25 @@
 #include <stdlib.h>
 #include <stdint.h>
 #include <time.h>
+#ifdef _WIN32
+    #include <intrin.h>
 
-// conditional free
-CULL_FUNC
-void cull_free(void* block)
-{
-    if(block != NULL) free(block);
-}
-
-CULL_FUNC
-uint64_t cull_clock_start()
-{
+    CULL_FUNC
+    uint64_t cull_getcycles()
+    {
+        return __rdtsc();
+    }
     
-}
+
+#else
+    #include <x86intrin.h>
+
+    // get cycles since machine bootup
+    uint64_t cull_getcycles()
+    {
+        unsigned int lo,hi;
+        __asm__ __volatile__ ("rdtsc" : "=a" (lo), "=d" (hi));
+        return ((uint64_t)hi << 32) | lo;
+    }
+
+#endif

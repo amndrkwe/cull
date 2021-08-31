@@ -139,7 +139,7 @@ cull_str* str_copy(const cull_str* string)
     return new_str;
 }
 
-// compare two strings and returns true if they are equal, case sensitive
+// compare two strings and returns true if they are equal, case sensitive.
 CULL_FUNC
 bool str_compare(const cull_str* s1, const cull_str* s2)
 {
@@ -150,7 +150,7 @@ bool str_compare(const cull_str* s1, const cull_str* s2)
     return (result == 0);
 }
 
-// resize string
+// resize string.
 CULL_FUNC
 bool str_resize(cull_str* string, size_t size)
 {
@@ -168,7 +168,7 @@ bool str_resize(cull_str* string, size_t size)
     return true;
 }
 
-// fill string with spaces
+// fill string with spaces.
 CULL_FUNC
 void str_clear(cull_str* string)
 {
@@ -180,14 +180,14 @@ void str_clear(cull_str* string)
     memset(string->data, 0, string->len);
 }
 
-// check if string is empty
+// check if string is empty.
 CULL_FUNC
 bool str_is_empty(cull_str* string)
 {
     return (string->len <= 1);
 }
 
-// concatenate two strings into a new one
+// concatenate two strings into a new one.
 CULL_FUNC
 cull_str* str_concat(cull_str* s1, cull_str* s2)
 {
@@ -211,7 +211,7 @@ cull_str* str_concat(cull_str* s1, cull_str* s2)
     return (buffer);
 }
 
-// truncate string to new length
+// truncate string to new length.
 CULL_FUNC
 void str_trunc(cull_str* string, uint32_t len)
 {
@@ -219,11 +219,11 @@ void str_trunc(cull_str* string, uint32_t len)
 
     if (len > string->len) return;
 
-    string->data[len - 1] = 0; // null terminator
+    string->data[len - 1] = 0; // add null terminator
     string->len = len;
 }
 
-// set string to uppercase
+// set string to uppercase.
 CULL_FUNC
 void str_upper(cull_str* string)
 {
@@ -235,7 +235,7 @@ void str_upper(cull_str* string)
     }
 }
 
-// set string to lowercase
+// set string to lowercase.
 CULL_FUNC
 void str_lower(cull_str* string)
 {
@@ -247,7 +247,7 @@ void str_lower(cull_str* string)
     }
 }
 
-// searches the string for a substring and returns a pointer to the string at the location specified, returns -1 if it fails
+// searches the string for a substring and returns a pointer to the string at the location specified, returns -1 if it fails.
 CULL_FUNC
 char* str_find(const cull_str* string, const cull_str* substring)
 {
@@ -257,35 +257,35 @@ char* str_find(const cull_str* string, const cull_str* substring)
     return location;
 }
 
-// get int from string
+// get int from string.
 CULL_FUNC
 int str_int(const cull_str* string)
 {
     return (int)(strtol(string->data, NULL, 0));
 }
 
-// get unsigned int from string
+// get unsigned int from string.
 CULL_FUNC
 uint32_t str_uint(const cull_str* string)
 {
     return (uint32_t)(strtoul(string->data, NULL, 0));
 }
 
-// get float from string
+// get float from string.
 CULL_FUNC
 float str_float(const cull_str* string)
 {
     return (strtof(string->data, NULL));
 }
 
-// get double from string
+// get double from string.
 CULL_FUNC
 double str_double(const cull_str* string)
 {
     return (strtod(string->data, NULL));
 }
 
-// tokenize string and return cull_strlist containing it
+// tokenize string and return cull_strlist containing it.
 CULL_FUNC
 cull_strlist* str_tokenize(const cull_str* string, char* delims)
 {

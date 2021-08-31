@@ -27,7 +27,6 @@ It defines a new string wrapper called str and a bunch of really useful function
 
 - ```strlist_t* strlist_create(size_t count)```: create strlist of given size.
 - ```void strlist_destroy(strlist_t* list)```: free strlist.
-
 - ```str_t* str_copy(const str_t* string)```: create a new_string based on another.
 - ```bool str_compare(const str_t* s1, const str_t* s2)```: compare two strings and returns true if they are equal, case sensitive.
 - ```void str_resize(str_t* string, size_t size)```: resize string.
@@ -43,3 +42,38 @@ It defines a new string wrapper called str and a bunch of really useful function
 - ```float str_float(const str_t* string)```: get float from string.
 - ```double str_double(const str_t* string)```: get double from string
 - ```strlist_t* str_tokenize(const str_t* string, char* delims)```: tokenize string following delims and return strlist containing the tokens.
+
+## ```types.h```:
+
+Fixed size type definitions for integers and floats, this mostly replaces the declarations in ```stdint.h``` :
+
+**types**:
+
+- `typedef u8`: same as uint8_t.
+- `typedef u16`: same as uint16_t.
+- `typedef u32`: same as uint32_t.
+- `typedef u64`: same as uint64_t.
+- `typedef uint`: same as uint32_t.
+- `typedef i8`: same as int8_t.
+- `typedef i32`: same as int32_t.
+- `typedef i64`: same as int64_t.
+
+***for most machines only the f32, f64 and f80 types will be available***
+
+- `typedef f16`: 16 bit float.
+- `typedef f32`: 32 bit float.
+- `typedef f64`: 64 bit float.
+- `typedef f80`: 80 bit float.
+- `typedef f128`: 128 bit float.
+
+## ```random.h```:
+
+better random functions that are at worst 10 times faster than the stdlib's definition of rand().
+
+**functions**:
+
+- `void random_seed(uint64_t seed)`: seed `random_get()` and `random_getf()`.
+- `void random_seeds(uint64_t seed)`: seed `random_gets()`.
+- `uint64_t random_get`: return random unsigned long long (uint64_t).
+- `uint64_t random_gets()`:return random unsigned long long (uint64_t) with better distribution but slightly slower.
+- `random_getf()`: return uniform distribution from 0 to 1.

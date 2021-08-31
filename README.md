@@ -29,7 +29,7 @@ It defines a new string wrapper called str and a bunch of really useful function
 - ```void strlist_destroy(strlist_t* list)```: free strlist.
 
 - ```str_t* str_copy(const str_t* string)```: create a new_string based on another.
-- ```bool str_compare(const str_t* s1, const str_t* s2)```: compare two strings, case sensitive.
+- ```bool str_compare(const str_t* s1, const str_t* s2)```: compare two strings and returns true if they are equal, case sensitive.
 - ```void str_resize(str_t* string, size_t size)```: resize string.
 - ```void str_clear(str_t* string)```: fill string with spaces.
 - ```bool str_is_empty(str_t* string)```: check if string is empty.

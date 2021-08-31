@@ -1,3 +1,4 @@
+// Cull File System
 // simpler file handling in c
 #pragma once
 
@@ -18,16 +19,15 @@
 
 enum err_codes
 {
-    CULL_INVALID_PATH,
-    CULL_INVALID_READ,
+    FS_INVALID_PATH,
+    FS_INVALID_READ,
 };
 
 enum read_modes
 {
-    WRITE, 
-    READ, 
-    WRITE_READ, 
-    APPEND
+    FS_WRITE = 1, 
+    FS_READ = 2, 
+    FS_APPEND = 4
 };
 
 typedef struct 

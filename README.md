@@ -1,5 +1,5 @@
 # **This is the dev branch!** *Nothing here is finished!*
-## don't use whatever is in here, but you are welcome to suggest changes and point out dumb errors.
+### don't use whatever is in here, but you are welcome to suggest changes and point out dumb errors.
 
 # Cull
 
@@ -65,41 +65,27 @@ Header essential for making os-independent command line applications. Great for 
 
 
 
-## ```int.h```:
+## ```types.h```:
 
-Alternative typedef format, this mostly replaces the declarations in ```stdint.h```:
+Fixed size type definitions for integers and floats, this mostly replaces the declarations in ```stdint.h``` :
 
 **types**
 
-- ```typedef u8``` same as uint8_t
-- ```typedef u16``` same as uint16_t
-- ```typedef u32``` same as uint32_t
-- ```typedef u64``` same as uint64_t
+- `typedef u8` same as uint8_t
+- `typedef u16` same as uint16_t
+- `typedef u32` same as uint32_t
+- `typedef u64` same as uint64_t
 
-- ```typedef uint``` same as uint32_t
+- `typedef uint` same as uint32_t
 
-- ```typedef i8``` same as int8_t
-- ```typedef i16``` same as int16_t
-- ```typedef i32``` same as int32_t
-- ```typedef i64``` same as int64_t
+- `typedef i8` same as int8_t
+- `typedef i16` same as int16_t
+- `typedef i32` same as int32_t
+- `typedef i64` same as int64_t
 
-## ```math.h```:
-
-Defines data structures and functions useful for mathematics.
-
-**macros**:
-
-- ```#define VEC2_SIZE 1```: math_vec2d size in bytes
-- ```#define VEC3_SIZE 2```: math_vec3d size in bytes
-- ```#define VEC4_SIZE 4```: math_vec4d size in bytes
-- 
-**types**:
-
-- ```typedef math_vec2d```: 2 dimensional vector composed of two floats ```x, y```.
-- ```typedef math_vec3d```: 3 dimensional vector composed of three floats ```x, y, z```.
-- ```typedef math_vec4d```: 4 dimensional vector composed of four floats ```x, y, z, w```.
-
-**functions**:
+- `typedef f32` 32 bit float.
+- `typedef f64` 64 bit float.
+- `typedef f80` 80 bit float.
 
 ## ```args.h```
 

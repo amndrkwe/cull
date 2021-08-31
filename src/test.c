@@ -1,3 +1,5 @@
+#define CULL_DEBUG
+
 #include "cull/random.h"
 #include "cull/cull.h"
 #include "cull/types.h"

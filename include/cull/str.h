@@ -1,17 +1,10 @@
 #pragma once
 
-#include <stdbool.h> // for booleans
-#include <stdint.h> // for size_t
+#include <stdbool.h> // for the bool data type
+#include <stdint.h> // for size_t and uint32_t
 #include <stdlib.h> // for calloc etc
 #include <string.h> // for strncpy, memcmp etc...
 #include <ctype.h> // toupper / tolower
-#include <stdarg.h> // va_lists etc
-#include <stdio.h> // sprintf etc
-#include <signal.h> // for raise
-
-#ifndef CULL_FUNC
-    #define CULL_FUNC inline static
-#endif
 
 #ifndef CULL_STRTYPE
     #define CULL_STRTYPE str_t
@@ -21,11 +14,17 @@
     #define CULL_STRLISTTYPE strlist_t
 #endif
 
+// Internal functions:
+
+// internal! do not use
+#ifndef CULL_FUNC
+    #define CULL_FUNC inline static
+#endif
+
+// internal! do not use
 #ifndef CULL_MAX
     #define CULL_MAX(n, m) (n < m) ? n : m
 #endif
-
-#define CULL_UNIMPLEMENTED printf("%s is not implemented yet!\n", __func__); raise(SIGILL)
 
 // string, wrapper around a char*
 typedef struct 
@@ -108,10 +107,10 @@ error:
     {
         if (list->data[i] == NULL) continue;
         str_destroy(list->data[i]);
-
     }
 
     free(list);
+    free(list->data);
 
     return NULL;
 
@@ -140,7 +139,7 @@ cull_str* str_copy(const cull_str* string)
     return new_str;
 }
 
-// compare two strings, case sensitive
+// compare two strings and returns true if they are equal, case sensitive
 CULL_FUNC
 bool str_compare(const cull_str* s1, const cull_str* s2)
 {
@@ -230,7 +229,6 @@ void str_upper(cull_str* string)
 {
     if (string == NULL) return;
     
-    char* c;
     for (uint32_t i = 0; i < string->len; i++)
     {
         string->data[i] = toupper(string->data[i]);
@@ -243,7 +241,6 @@ void str_lower(cull_str* string)
 {
     if (string == NULL) return;
     
-    char* c;
     for (uint32_t i = 0; i < string->len; i++)
     {
         string->data[i] = tolower(string->data[i]);
@@ -314,7 +311,6 @@ cull_strlist* str_tokenize(const cull_str* string, char* delims)
     return (list);
 
 error:
-    printf("ERROR\n");
     strlist_destroy(list);
 
     return NULL;
@@ -322,4 +318,6 @@ error:
 }
 
 typedef cull_str CULL_STRTYPE;
-typedef cull_strlist CULL_STRLISTTYPE;  
+typedef cull_strlist CULL_STRLISTTYPE;
+
+#undef CULL_MAX
